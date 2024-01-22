@@ -20,8 +20,10 @@ pytorch 1.8.2
 
 ## Data
 
-The synthetic vascular projection images are available at: [vascular image](https://b2share.fz-juelich.de/records/3a652a2089ae4b84bdacc40c676e7825)
-
+The synthetic vascular projection images we utilized in this work are available at: [vascular image](https://b2share.fz-juelich.de/records/3a652a2089ae4b84bdacc40c676e7825).
+To generate your vascular projection images:  
+1. Run stringGenerator.py  
+2. Run projectionGenerator.py  
 
 ## Getting started with training
 ### Train model use synthetic data
