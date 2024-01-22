@@ -12,7 +12,7 @@ For more information about this work, please read our [Medical Physics 2024 pape
 > Duan, L., Eulig, E., Knaup, M., Adamus, R., Lell, M., & Kachelrieß, M. "Training of a Deep Learning Based Digital Subtraction Angiography Method using Synthetic Data."
 
 
-## Requirement
+## Requirements
 ```
 python 3.7.1
 pytorch 1.8.2
@@ -20,7 +20,7 @@ pytorch 1.8.2
 
 ## Data
 
-The synthetic vascular projection images we utilized in this work are available at: [vascular image](https://b2share.fz-juelich.de/records/3a652a2089ae4b84bdacc40c676e7825).  
+The synthetic vascular projection images we utilized in this work are available for download [here](https://b2share.fz-juelich.de/records/3a652a2089ae4b84bdacc40c676e7825).
 To generate vascular projection images:  
 ```
 1. Run SimVessels\stringGenerator.py  
@@ -31,11 +31,11 @@ To generate vascular projection images:
 ## Getting started with training
 ### Train model use synthetic data
   - Copy your CT projection images into `CT_projs\`
-  - Download the vascular images from [vascular image](https://b2share.fz-juelich.de/records/3a652a2089ae4b84bdacc40c676e7825) into `vessels\`
-  - Run the default training for U-net using `python train_syn.py --cuda --augment --add_noise`. For U-net GAN, use `python train_GAN.py --cuda --augment --add_noise`.
+  - Download the [vascular image data](https://b2share.fz-juelich.de/records/3a652a2089ae4b84bdacc40c676e7825) into `vessels\`
+  - Run the default training for U-net using `python train_syn.py --cuda --augment --add_noise`. For U-net with adversarial loss, use `python train_GAN.py --cuda --augment --add_noise`.
   - Utilize multiple GPUs for U-net using `python -m torch.distributed.launch --nproc_per_node 4 train_syn.py --m_cuda --devices 0 1 2 3 --augment --add_noise`.
 
-### Train model use clinical data
+### Train model using clinical data
   - Copy your DSA data into `data/` directory.
   - Modify the corresponding information in the `data/info.xlsx` based on your data.
   - Run the default training for U-net using `python train.py --cuda --augment`. For U-net GAN, use `python train_GAN_syn.py --cuda --augment`.
