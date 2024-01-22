@@ -38,4 +38,5 @@ SimVesselProjs.exe \InputFolder\Lnet_1024x1024x1024.raw \OutputFolder 1024 1024 
 `
 
 ## Acknowledgements
-We would like to acknowledge the authors and contributors of the code that we referenced from the GitHub repository [https://github.com/psweens/V-System].
+- We would like to acknowledge the authors and contributors of the code that we referenced from the GitHub repository [https://github.com/psweens/V-System].
+- Parts of the forward projection executable were provided by [RayConStruct®](http://www.rayconstruct.de) GmbH, Nürnberg, Germany.
