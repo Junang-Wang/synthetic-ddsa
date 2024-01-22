@@ -8,7 +8,7 @@ This is the code for generate synthetic vascular projection images
 ## Contents
 ```
 ├─ vsystem/                 Folder containing functions for generate vessels with stochastic L-system
-├─ bolus/                   Folder ocntaining functions for bolus injection simulation
+├─ bolus/                   Folder containing functions for bolus injection simulation
 ├─ stringGenerator.py       Generate and save vessel strings
 ├─ projectionGenerator.py   Generate vascular projection images with simulated bolus injections using given vessel strings
 ├─ SimVesselProjs.exe       Project 3D vascular images into 2D images
@@ -38,4 +38,4 @@ SimVesselProjs.exe \InputFolder\Lnet_1024x1024x1024.raw \OutputFolder 1024 1024 
 `
 
 ## Acknowledgements
-I would like to acknowledge the authors and contributors of the code that I referenced from the GitHub repository [https://github.com/psweens/V-System].
+We would like to acknowledge the authors and contributors of the code that we referenced from the GitHub repository [https://github.com/psweens/V-System].
