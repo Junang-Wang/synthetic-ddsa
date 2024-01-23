@@ -38,7 +38,7 @@ To generate vascular projection images:
 ### Train model using clinical data
   - Copy your DSA data into `data/` directory.
   - Modify the corresponding information in the `data/info.xlsx` based on your data.
-  - Run the default training for U-net using `python train.py --cuda --augment`. For U-net GAN, use `python train_GAN_syn.py --cuda --augment`.
+  - Run the default training for U-net using `python train.py --cuda --augment`. For U-net with adversarial loss, use `python train_GAN_syn.py --cuda --augment`.
   - Utilize multiple GPUs for U-net using `python -m torch.distributed.launch --nproc_per_node 4 train.py --m_cuda --devices 0 1 2 3 --augment`.
 
 ### Training Parameters
