@@ -29,7 +29,7 @@ To generate vascular projection images:
 
 
 ## Getting started with training
-### Train model use synthetic data
+### Train model using synthetic data
   - Copy your CT projection images into `CT_projs\`
   - Download the [vascular image data](https://b2share.fz-juelich.de/records/3a652a2089ae4b84bdacc40c676e7825) into `vessels\`
   - Run the default training for U-net using `python train_syn.py --cuda --augment --add_noise`. For U-net with adversarial loss, use `python train_GAN.py --cuda --augment --add_noise`.
