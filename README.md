@@ -7,7 +7,7 @@ The synthetic DSA targets are free of typical artifacts and noise commonly found
 Benefiting from diverse synthetic training data and accurate synthetic DSA targets, models trained on the synthetic data outperform models trained on clinical data in both visual and quantitative assessments.
 This approach compensates for the paucity and inadequacy of clinical DSA data.
 
-For more information about this work, please read our [Medical Physics 2024 paper]()
+For more information about this work, please read our [Medical Physics 2024 paper](http://doi.org/10.1002/mp.16973)
 
 > Duan, L., Eulig, E., Knaup, M., Adamus, R., Lell, M., & Kachelrieß, M. "Training of a Deep Learning Based Digital Subtraction Angiography Method using Synthetic Data."
 
@@ -102,6 +102,17 @@ optional arguments:
 Run `test.py` to test the U-net model, and `test_GAN.py` for the U-net GAN model.
 
 ## Reference
+If you find this project useful for your work, please consider citing our Medical Physics paper
 ```
-Reference will be provided upon publication.
+@article{duan2024-deepdsa,
+  author = {Duan, Lizhen and Eulig, Elias and Knaup, Michael and Adamus, Ralf and Lell, Michael and Kachelrieß, Marc},
+  title = {Training of a deep learning based digital subtraction angiography method using synthetic data},
+  journal = {Medical Physics},
+  volume = {n/a},
+  number = {n/a},
+  pages = {},
+  doi = {https://doi.org/10.1002/mp.16973},
+  url = {https://aapm.onlinelibrary.wiley.com/doi/abs/10.1002/mp.16973},
+  eprint = {https://aapm.onlinelibrary.wiley.com/doi/pdf/10.1002/mp.16973},
+}
 ```
