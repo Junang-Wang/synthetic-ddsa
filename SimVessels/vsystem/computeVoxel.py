@@ -8,7 +8,7 @@ segment (x,y,z) and (x+dx,y+dy,z+dz).
 
 import numpy as np
 
-from utils import generate_points
+from vsystem.utils import generate_points
 
 
 def process_network(data, tVol):

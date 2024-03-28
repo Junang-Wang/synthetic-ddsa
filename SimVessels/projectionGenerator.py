@@ -19,15 +19,18 @@ def main():
     CTsize = (1024, 1024)  # size of final projections
     num_projection = 16  # number of projections for a volume
 
-    inpath = r"vessels\update_save\\"
-    OutPath_CTproj = r"vessels\bolus_chase"
+    inpath = r"./vessels/update_save/"
+    outpath = r"./vessels/volumes/"
+    OutPath_CTproj = r"./vessels/bolus_chase/"
     if not os.path.exists(OutPath_CTproj):
         os.makedirs(OutPath_CTproj)
-    outpath = r"vessels\volumes\\"
+    if not os.path.exists(outpath):
+        os.makedirs(outpath)
+    
 
     domean_min = 10
     domean_max = 60
-    d0std = 5.0
+    d0std = 60.0
     for d0mean in range(domean_min, domean_max + 1, int(d0std)):
         for d in [12, 15, 20]:  # 10 times Proportion between d0 & d1
             for epsilon in range(4, 10):  # differ Proportion between length & diameter
@@ -112,7 +115,7 @@ def main():
                         print("Generating Projections……")
                         # -----------Volumes To CT Projection--------#
                         os.system(
-                            "VascularProjection.exe %s %s %d %d %d 0.15 0.15 0.15 %d %d %d"
+                            "./synthetic-ddsa/SimVessels/SimVesselProjs.exe %s %s %d %d %d 0.15 0.15 0.15 %d %d %d"
                             % (
                                 Out_volume_name,
                                 OutPath_CTproj,
@@ -125,10 +128,10 @@ def main():
                             )
                         )
 
-                        for filename in os.listdir(outpath):
-                            if "raw" in filename:
-                                print(filename)
-                                os.remove(outpath + filename)
+                        # for filename in os.listdir(outpath):
+                        #     if "raw" in filename:
+                        #         print(filename)
+                        #         os.remove(outpath + filename)
                         print("Time:", str(time.time() - start))
                         # sys.exit(0)
 

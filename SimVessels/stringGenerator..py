@@ -22,11 +22,11 @@ from vsystem.vSystem import F, I
 # -------parameters setting-------------#
 domean_min = 10
 domean_max = 61
-d0std = 5.0  # Standard deviation of base diameter
+d0std = 60.0  # Standard deviation of base diameter
 
 
 def main():
-    outpath = "vessels\\update_save\\"
+    outpath = "./vessels/update_save/"
     if not os.path.exists(outpath):
         os.makedirs(outpath)
 
@@ -43,14 +43,14 @@ def main():
     for d0mean in range(domean_min, domean_max + 1, int(d0std)):
         d0 = np.random.normal(
             d0mean, d0std
-        )  # Ramdonly assign base diameter (no dimension)
+        )  # Randomly assign base diameter (no dimension)
         for niter in range(6, 14):
             for epsilon in range(4, 10):  # differ Proportion between length & diameter
                 properties["epsilon"] = epsilon
-                for d in [12, 15, 20]:  # ratio betwwen d0 to its subbranch
+                for d in [12, 15, 20]:  # ratio between d0 to its subbranch
                     properties["d"] = d / 10
 
-                    setProperties(properties)  # Setting L-Sytem properties
+                    setProperties(properties)  # Setting L-System properties
 
                     print(
                         "Creating image ... with %i iterations %i dosize %i d "

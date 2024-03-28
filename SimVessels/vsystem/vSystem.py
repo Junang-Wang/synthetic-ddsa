@@ -1,8 +1,8 @@
 import random
 
 import numpy as np
-from analyseGrammar import posneg
-from libGenerator import calBifurcation, calParam, setProperties
+from vsystem.analyseGrammar import posneg
+from vsystem.libGenerator import calBifurcation, calParam, setProperties
 
 
 def I(n, d0, val=3):

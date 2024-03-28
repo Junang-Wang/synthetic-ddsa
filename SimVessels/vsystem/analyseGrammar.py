@@ -3,7 +3,7 @@ from math import cos, pi, sin, sqrt
 
 import numpy as np
 
-from utils import magnitude, normalise, rotate
+from vsystem.utils import magnitude, normalise, rotate
 
 DEGREES_TO_RADIANS = pi / 180
 
