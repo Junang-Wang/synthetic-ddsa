@@ -40,63 +40,65 @@ def main():
         "stochparams": True,
     }  # Whether the generated parameters will also be stochastic
 
-    for d0mean in range(domean_min, domean_max + 1, int(d0std)):
-        d0 = np.random.normal(
-            d0mean, d0std
-        )  # Randomly assign base diameter (no dimension)
-        for niter in range(6, 14):
-            for epsilon in range(4, 10):  # differ Proportion between length & diameter
-                properties["epsilon"] = epsilon
-                for d in [12, 15, 20]:  # ratio between d0 to its subbranch
-                    properties["d"] = d / 10
+    # for d0mean in range(domean_min, domean_max + 1, int(d0std)):
+    #     d0 = np.random.normal(
+    #         d0mean, d0std
+    #     )  # Randomly assign base diameter (no dimension)
+    d0 = 20
+    d0mean = 20
+    for niter in range(13, 14):
+        for epsilon in range(9, 10):  # differ Proportion between length & diameter
+            properties["epsilon"] = epsilon
+            for d in [12, 15, 20]:  # ratio between d0 to its subbranch
+                properties["d"] = d / 10
 
-                    setProperties(properties)  # Setting L-System properties
+                setProperties(properties)  # Setting L-System properties
 
-                    print(
-                        "Creating image ... with %i iterations %i dosize %i d "
-                        % (niter, d0mean, d)
-                    )
+                print(
+                    "Creating image ... with %i iterations %i dosize %i d "
+                    % (niter, d0mean, d)
+                )
 
-                    """ Run L-System grammar for n iterations """
-                    turtle_program = F(niter, d0)
+                """ Run L-System grammar for n iterations """
+                turtle_program = F(niter, d0)
 
-                    """ Convert grammar into coordinates """
-                    coords = branching_turtle_to_coords(turtle_program, d0)
+                """ Convert grammar into coordinates """
+                coords = branching_turtle_to_coords(turtle_program, d0)
 
-                    """ Analyse / sort coordinate data """
-                    update = bezier_interpolation(coords)
+                """ Analyse / sort coordinate data """
+                update = bezier_interpolation(coords)
 
-                    # print(type(update))
-                    np.savetxt(
-                        outpath
-                        + "update_d"
-                        + str(d0mean)
-                        + "_dr"
-                        + str(d)
-                        + "_epsilon"
-                        + str(epsilon)
-                        + "_iter"
-                        + str(niter)
-                        + ".txt",
-                        update,
-                    )
+                # print(type(update))
+                np.savetxt(
+                    outpath
+                    + "update_d"
+                    + str(d0mean)
+                    + "_dr"
+                    + str(d)
+                    + "_epsilon"
+                    + str(epsilon)
+                    + "_iter"
+                    + str(niter)
+                    + ".txt",
+                    update,
+                )
 
-                    """ If you fancy, plot a 2D image of the network! """
-                    # plot_coords(update, array=True, bare_plot=False) # bare_plot removes the axis labels
+                """ If you fancy, plot a 2D image of the network! """
+                # plot_coords(update, array=True, bare_plot=False) # bare_plot removes the axis labels
 
-                    """ Run 3D voxel traversal to generate binary mask of L-System network """
-                    # image = process_network(update, tVol=tissueVolume)
+                """ Run 3D voxel traversal to generate binary mask of L-System network """
+                # image = process_network(update, tVol=tissueVolume)
 
-                    """ Convert to 8-bit format """
-                    # image = (255*image).astype('int8')
-                    """ Save image volume """
-                    # io.imsave(outpath+"Lnet_i{}_{}.tiff".format(niter,file), np.transpose(image, (2, 0, 1)), bigtiff=False)
+                """ Convert to 8-bit format """
+                # image = (255*image).astype('int8')
+                """ Save image volume """
+                # io.imsave(outpath+"Lnet_i{}_{}.tiff".format(niter,file), np.transpose(image, (2, 0, 1)), bigtiff=False)
 
-                    # image = (1024*image).astype('float32')
-                    # print(image.shape)
-                    # image = np.transpose(image, (2, 0, 1))
-                    # print(image.shape)
-                    # image.tofile(outpath+"Lnet_i{}_{}_{}x{}x{}.raw".format(niter,file,tissueVolume[1],tissueVolume[0],tissueVolume[2]))
+                # image = (1024*image).astype('float32')
+                # print(image.shape)
+                # image = np.transpose(image, (2, 0, 1))
+                # print(image.shape)
+                # image.tofile(outpath+"Lnet_i{}_{}_{}x{}x{}.raw".format(niter,file,tissueVolume[1],tissueVolume[0],tissueVolume[2]))
 
 
 if __name__ == "__main__":

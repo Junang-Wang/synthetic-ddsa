@@ -1,5 +1,6 @@
 from math import isnan
-
+from skimage import io
+import napari
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
@@ -59,3 +60,36 @@ def print_coords(coords):
             print("<gap>")
         else:
             print("({:.2f}, {:.2f}, {:.2f})".format(x, y, z))
+
+
+def plot_tiff(file, rgb=False):
+    """
+    function to plot stacked tif images t
+    """
+    data = io.imread(file)
+
+    viewer = napari.Viewer(ndisplay=3)
+    new_layer = viewer.add_image(data, rendering='minip', blending='additive', interpolation3d='linear', rgb=False)
+    viewer.axes.visible = True
+    viewer.camera.angles = (0, 0, 90)
+    viewer.camera.zoom = 1
+    napari.run()
+
+    return viewer
+
+def plot_tiffs(files, rgb=False):
+    """
+    function to plot stacked tif images t
+    """
+    viewer = napari.Viewer(ndisplay=3)
+    for file in files:
+        data = io.imread(file)
+
+        
+        new_layer = viewer.add_image(data, rendering='minip', blending='additive', interpolation3d='linear', rgb=False)
+        viewer.axes.visible = True
+        viewer.camera.angles = (0, 0, 90)
+        viewer.camera.zoom = 1
+    napari.run()
+
+    return viewer
