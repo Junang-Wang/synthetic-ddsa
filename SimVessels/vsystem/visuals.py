@@ -85,10 +85,14 @@ def plot_tiffs(files, rgb=False):
     for file in files:
         data = io.imread(file)
 
+        # convert data from XYZ to ZYX in order to change left handed coordinate system to right handed in napari 
+        # in napari axis 2 is x axis, axis 1 is y and axis 0 is z
+        data = np.transpose(data,(2,1,0))
+
         
-        new_layer = viewer.add_image(data, rendering='minip', blending='additive', interpolation3d='linear', rgb=False)
+        new_layer = viewer.add_image(data, rendering='mip', blending='additive', interpolation3d='linear', rgb=False)
         viewer.axes.visible = True
-        viewer.camera.angles = (0, 0, 90)
+        viewer.camera.angles = (0, 90, 0)
         viewer.camera.zoom = 1
     napari.run()
 

@@ -76,9 +76,9 @@ def main():
                 # parameters for boulus injection
                 sigma = 500
                 v = 1
-                t_start = 600
-                t_end = 1001
-                t_step = 1000
+                t_start = 0
+                t_end = 1
+                t_step = 100
                 for t in range(t_start, t_end, t_step):
                     Out_volume_name = (
                         outpath
@@ -90,13 +90,14 @@ def main():
                             sigma,
                             v,
                             t,
-                            tissueVolume[2],
-                            tissueVolume[1],
                             tissueVolume[0],
+                            tissueVolume[1],
+                            tissueVolume[2],
                         )
                     )
                     if os.path.exists(Out_volume_name):
-                        continue
+                        # continue
+                        pass
                     # resize to ideal voxel size then calculate distance
                     updaten = resize_network(update, dmin, dmax, tVol=tissueVolume)
                     print("Time for resize voxels:", str(time.time() - start))
@@ -111,16 +112,16 @@ def main():
                     print("max distance:", max_dist)
                     print("Time for injection simulated:", str(time.time() - start))
                     # rs=False means no need to resize the network
-                    # img = (255*process_network_fluid(
+                    # img = (255*(process_network_fluid(
                     #     updaten_bolus, dmin, dmax, tVol=tissueVolume, rs=False
-                    # )).astype("int8")
+                    # ) )).astype("uint8")
 
                     # without fluid
                     img = (255*process_network(
                         update, tVol=tissueVolume
-                    )).astype("int8")
-
-                    io.imsave(Out_volume_name, np.transpose(img, (2, 0, 1)), bigtiff=False)
+                    )).astype("uint8")
+                    print(np.max(img),np.min(img))
+                    io.imsave(Out_volume_name, img, bigtiff=False)
                     # img.tofile(Out_volume_name)
                     print("Generating Projections……")
                     # -----------Volumes To CT Projection--------#
