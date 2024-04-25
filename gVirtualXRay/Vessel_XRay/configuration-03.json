@@ -1,0 +1,46 @@
+{
+    "WindowSize": [512, 512],
+
+    "Detector": {
+        "Position": [50.0, 0.0, 0.0, "cm"],        
+        "UpVector": [0, 0, -1],
+        "NumberOfPixels": [1024, 1024],
+        "Size": [500, 500, "mm"]
+    },
+
+    
+    "Source": {
+        "Position": [-50.0,  0.0, 0.0, "cm"],
+        "Shape": "PointSource",
+        "Beam": [
+            {
+                "Energy": 0.08,
+                "Unit": "MeV",
+                "PhotonCount": 1000
+            }
+        ]
+    },
+
+    "Samples": [
+        {
+            "Label": "Vessel",
+            "Path": "/home/rslsync/Qubot/Codes/synthetic-ddsa/synthetic-ddsa/vessels/STL/Segmentation_skin.stl",
+            "Unit": "mm",
+            "Material": ["Mixture", [
+                    1, 0.040, // atom number, percentage
+                    6, 0.160,
+                    7, 0.045,
+                    8, 0.469,
+                    11, 0.001, 
+                    12, 0.002,
+                    15, 0.090,
+                    16, 0.003,
+                    20, 0.190
+                ]
+            ],
+            "Density": 1.920, // g/cm^3
+            "Type" : "inner",
+            "Transform": [["Scaling", 0.5, 0.5, 0.5]]
+        }
+    ]
+}

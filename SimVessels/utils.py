@@ -3,7 +3,7 @@ import cv2
 from skimage import io
 import matplotlib.pyplot as plt
 
-def shpere_to_cartesian(s_coordinate):
+def sphere_to_cartesian(s_coordinate):
     """
     input: sphere coordinate vector [r, polar angle, azimuthal angle]
     return: cartesian coordinate vector
@@ -15,9 +15,48 @@ def shpere_to_cartesian(s_coordinate):
     c_coordinate = np.array([x,y,z])
     return c_coordinate
 
+def cartesian_to_sphere(c_coordinate):
+    """
+    input: cartesian coordinate vector
+    return: sphere coordinate vector [r, polar angle, azimuthal angle]
+    """
+    x,y,z = c_coordinate
+    r = np.sqrt(np.sum(c_coordinate**2 ))
+    theta = np.arccos(z/r)
+    phi = np.arctan2(y,x)
+
+
+    s_coordinate = np.array([r,theta,phi])
+    return s_coordinate
+
+def theta_unit_vector(s_coordinate):
+    '''
+    compute theta unit vector in cartesian coordinate
+    '''
+    r, theta, phi = s_coordinate
+
+    dx = np.cos(theta)*np.cos(phi)
+    dy = np.cos(theta)*np.sin(phi)
+    dz = -np.sin(theta)
+
+    return np.array([dx,dy,dz])
+
+
+
+def compute_up_vector(source_position,lookAt):
+    detector_unit_vector = (lookAt-source_position)/ np.linalg.norm(lookAt-source_position)
+
+    s_detector_unit_vector = cartesian_to_sphere(detector_unit_vector)
+
+    up_vector = theta_unit_vector(s_detector_unit_vector)
+
+    return up_vector
 
 def compute_rotation_matrix(n, angle):
-
+    '''
+    n: rotation vector axis
+    angle: rotation angle
+    '''
     # quaternion
     q = np.concatenate((n*np.sin(angle/2),np.array([np.cos(angle/2)])))
     x = q[0]
@@ -39,7 +78,7 @@ class projector:
 
     def __init__(self, data) -> None:
         self.data = data 
-        self.points = np.column_stack(np.nonzero(data))
+        self.points = np.flip(np.column_stack(np.nonzero(data)),1)
 
     def camera_init(self, view_angle_x, view_angle_y, width, height):
 
@@ -97,6 +136,7 @@ class projector:
         # compute rotation axis
         axis_z = np.array([0,0,1])
         axis_y = np.array([0,1,0])
+        axis_x = np.array([1,0,0])
         cross_p = np.cross(self.new_z, axis_z)
         cross_p_norm = np.linalg.norm(cross_p)
 
@@ -113,6 +153,29 @@ class projector:
         self.angle = np.arccos(self.new_z@ axis_z)
         # print(self.angle)
 
+        # rotate to new z axis matrix
+        rotate_new_z_matrix = compute_rotation_matrix(self.n, self.angle)
+        
+        # rotate to temp_x
+        target_x = compute_up_vector(location, lookAt) # dtheta direction word coordinate
+        target_x_c = rotate_new_z_matrix@target_x # convert to camera coordinate
+
+        cross_p_2 = np.cross(target_x_c, axis_x)
+        cross_p_norm_2 = np.linalg.norm(cross_p_2)
+
+        if cross_p_norm_2 == 0:
+            cross_p_2 = axis_z
+            cross_p_norm_2 = 0
+            n2 = cross_p_2
+            # self.new_z = axis_z
+        else:
+            n2 = cross_p_2/ cross_p_norm_2
+        
+        rotate_x_angle = np.arccos(target_x_c@axis_x)
+        # print('target:', target_x)
+        # print('target_x_c:', target_x_c)
+        rotate_new_x_matrix = compute_rotation_matrix(n2, rotate_x_angle)
+
         axis_xy = np.array([1,1,0])/np.sqrt(2)
 
         # rotate coordinate toward the lookAt point
@@ -120,7 +183,7 @@ class projector:
 
 
         # compute rotation matrix
-        self.R = lookAt_R @ compute_rotation_matrix(self.n, self.angle)
+        self.R = lookAt_R @ rotate_new_x_matrix @ rotate_new_z_matrix
         self.tvec = -self.R@location
 
     def twist_camera(self, angle):
@@ -146,9 +209,10 @@ class projector:
         N_points = self.points.shape[0]
         for i in range(N_points):
             if points_2D[i,0] >0 and points_2D[i,0] < self.H and points_2D[i,1] >0 and points_2D[i,1] < self.W: 
-                image[points_2D[i,1], points_2D[i,0]] *= (1-opacity*self.data[self.points[i,0],self.points[i,1],self.points[i,2]]/255)
-        image = (255*(1-image)).astype('uint8')
-        # image = np.flip((255*(1-image)).astype('uint8'),1)
+                image[points_2D[i,1], points_2D[i,0]] *= (1-opacity*self.data[self.points[i,2],self.points[i,1],self.points[i,0]]/255)
+        # image = (255*(1-image)).astype('uint8')
+        # image = np.flip((255*(1-image)).astype('uint8'),(1)) # inverse the image
+        image = np.flip((255*image).astype('uint8'),(1)) 
 
         plt.imshow(image, cmap='gray')
         # plt.colorbar()

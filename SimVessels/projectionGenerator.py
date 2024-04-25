@@ -5,7 +5,8 @@ import math
 import os
 import sys
 import time
-from skimage import io
+from skimage import io, measure
+from stl import mesh
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -34,9 +35,9 @@ def main():
     # domean_max = 60
     # d0std = 60.0
     # for d0mean in range(domean_min, domean_max + 1, int(d0std)):
-    d0 = 20
+    d0 = 35 # initial diameter
     d0mean =20
-    for d in [12, 15, 20]:  # 10 times Proportion between d0 & d1
+    for d in [12, 15, 20]:  # 10 times Proportion between d0 & d1 subbranch
         for epsilon in range(9, 10):  # differ Proportion between length & diameter
             for niter in range(13, 14):
                 start = time.time()
@@ -72,7 +73,7 @@ def main():
                 # control the vessel's size for a same vessel
                 dmin = np.nanmin(update, axis=1) * 1.1
                 dmax = np.nanmax(update, axis=1) * 1.1
-
+                print(dmin,dmax)
                 # parameters for boulus injection
                 sigma = 500
                 v = 1
@@ -120,6 +121,16 @@ def main():
                     img = (255*process_network(
                         update, tVol=tissueVolume
                     )).astype("uint8")
+
+                    # verts, faces, normals, values = measure.marching_cubes(img, 1)
+
+                    # obj_3d = mesh.Mesh(np.zeros(faces.shape[0], dtype=mesh.Mesh.dtype))
+
+                    # for i, f in enumerate(faces):
+                    #     obj_3d.vectors[i] = verts[f]
+                    # obj_3d.save('test.stl')
+
+
                     print(np.max(img),np.min(img))
                     io.imsave(Out_volume_name, img, bigtiff=False)
                     # img.tofile(Out_volume_name)

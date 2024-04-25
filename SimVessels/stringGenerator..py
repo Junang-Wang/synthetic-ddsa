@@ -44,10 +44,10 @@ def main():
     #     d0 = np.random.normal(
     #         d0mean, d0std
     #     )  # Randomly assign base diameter (no dimension)
-    d0 = 20
-    d0mean = 20
-    for niter in range(13, 14):
-        for epsilon in range(9, 10):  # differ Proportion between length & diameter
+    d0 = 35
+    d0mean = 35
+    for niter in range(8, 9):
+        for epsilon in range(10,11):  # differ Proportion between length & diameter
             properties["epsilon"] = epsilon
             for d in [12, 15, 20]:  # ratio between d0 to its subbranch
                 properties["d"] = d / 10

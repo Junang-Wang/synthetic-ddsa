@@ -87,7 +87,7 @@ def plot_tiffs(files, rgb=False):
 
         # convert data from XYZ to ZYX in order to change left handed coordinate system to right handed in napari 
         # in napari axis 2 is x axis, axis 1 is y and axis 0 is z
-        data = np.transpose(data,(2,1,0))
+        # data = np.transpose(data,(2,1,0))
 
         
         new_layer = viewer.add_image(data, rendering='mip', blending='additive', interpolation3d='linear', rgb=False)
