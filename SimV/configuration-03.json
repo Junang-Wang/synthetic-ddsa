@@ -40,7 +40,7 @@
             ],
             "Density": 1.920, // g/cm^3
             "Type" : "inner",
-            "Transform": [["Scaling", 0.5, 0.5, 0.5]]
+            "Transform": [["Scaling", 0.4, 0.4, 0.4]]
         }
     ]
 }

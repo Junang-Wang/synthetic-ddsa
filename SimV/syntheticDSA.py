@@ -8,10 +8,11 @@ from SimV.vsystem.utils import bezier_interpolation
 from SimV.vsystem.vSystem import F, I
 from vedo import Volume
 from skimage import io
+import time
 
 class syntheticDSA:
 
-    def __init__(self, d0_array, niter_array, epsilon_array, d_array):
+    def __init__(self, d0_array, niter_array, epsilon_array, d_array, tissueVolume):
         """
         d0_array:      numpy array of initial diameter of vascular
         niter_array:   numpy array of number of iteration of L-system
@@ -23,18 +24,18 @@ class syntheticDSA:
         self.niter_array = niter_array
         self.epsilon_array = epsilon_array
         self.d_array = d_array 
+        self.tissueVolume = tissueVolume
 
-    def string2stl(self, tissueVolume, string_folder, stl_folder):
+    def string2stl(self, string_folder, stl_folder):
         """
         tissueVolume:  volume size
         string_folder:        save path of string
         stl_folder:        save path of stl files
         """
-        self.tissueVolume = tissueVolume
         
         self.stringGenerator(self.d0_array, self.niter_array, self.epsilon_array, self.d_array, string_folder)
 
-        self.stlGenerator(self.d0_array, self.niter_array, self.epsilon_array, self.d_array, tissueVolume, string_folder, stl_folder)
+        self.stlGenerator(self.d0_array, self.niter_array, self.epsilon_array, self.d_array, self.tissueVolume, string_folder, stl_folder)
     
     def stl2images(self, nProj, XrayConf, stl_folder, images_folder):
         """
@@ -201,8 +202,10 @@ class syntheticDSA:
                         # convert volume to mesh by vedo
                         # vol = Volume(vessel_v)
 
-                        # isovalues = [0,255]
-                        # mesh = vol.isosurface_discrete(isovalues, nsmooth=12)
+                        # # isovalues = list(range(255))
+                        # isovalues = [0, 255]
+                        # # mesh = vol.isosurface_discrete(isovalues, nsmooth=12)
+                        # mesh = vol.isosurface(isovalues).smooth(niter=50, boundary=True)
 
                         # mesh.write(Out_stl_name)
 
@@ -293,5 +296,6 @@ class syntheticDSA:
                                                 )
                                             )
                                 x_ray_image = simulate_Xray(params, source_position, lookAt, save_path)
+                                # time.sleep(0.5)
 
                         stl_n += 1
